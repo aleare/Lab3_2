@@ -75,12 +75,12 @@ void crea_vettore_tastiera(int *v) {
     int d; //Dimensione del vettore da inserire
     do{
         printf("Inserire la dimensione del vettore:\n");
-        scanf("%d",&d);
+        fscanf(stdin,"%d",&d);
         if(d<0) printf("Dimensione Errata! Riprovare...\n");
     } while (d<0);
     printf("Inserire i dati del vettore:\n");
     for (int i = 0; i < d; ++i) {
-        scanf("%d",&v[i]);
+        fscanf(stdin,"%d",&v[i]);
     }
     //Debug
     printf("Il vettore acquisito e'...:\n");
@@ -151,7 +151,6 @@ void stampa_unione_insiemi(int *v1, int *v2, int size) { //Dato che non richiest
         }
     }
     printf("\n");
-    return;
 }
 //Funzioni di selezione
 int selezione_stringa_2(char *string1, char *string2) {
