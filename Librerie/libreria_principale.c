@@ -226,12 +226,12 @@ int ins_unione_insiemi(int *v1, int *v2, int *u, int size) {//Il vettore creato 
 }
 //Funzioni di selezione [sel]
 int selezione_stringa_2(char *string1, char *string2) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR;
-    assert(x);
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR;
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int i = 0; i < strlen(string1); ++i) {
-        string1[i]=tolower(string1[i]);
+        string1[i]=tolower(string1[i]);;
     }
     for (int j = 0; j < strlen(string2); ++j) {
         string2[j]=tolower(string2[j]);
@@ -247,8 +247,8 @@ int selezione_stringa_2(char *string1, char *string2) {
     return f;
 }
 int selezione_stringa_3(char *string1, char *string2, char *string3) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR;
-    assert(x);
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR;
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int a = 0; a < strlen(string1); ++a) {
@@ -272,8 +272,8 @@ int selezione_stringa_3(char *string1, char *string2, char *string3) {
     return f;
 }
 int selezione_stringa_4(char *string1, char *string2, char *string3, char *string4) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR;
-    assert(x);
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR;
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int a = 0; a < strlen(string1); ++a) {
@@ -301,8 +301,8 @@ int selezione_stringa_4(char *string1, char *string2, char *string3, char *strin
     return f;
 }
 int selezione_stringa_5(char *string1, char *string2, char *string3, char *string4, char *string5) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&strlen(string5)<MAX_STR;
-    assert(x);
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&strlen(string5)<MAX_STR;
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int a = 0; a < strlen(string1); ++a) {
@@ -334,9 +334,9 @@ int selezione_stringa_5(char *string1, char *string2, char *string3, char *strin
     return f;
 }
 int selezione_stringa_6(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
           strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR;
-    assert(x);
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int a = 0; a < strlen(string1); ++a) {
@@ -373,9 +373,9 @@ int selezione_stringa_6(char *string1, char *string2, char *string3, char *strin
 }
 int selezione_stringa_7(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6,
                         char *string7) {
-    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
+    int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
           strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR&&strlen(string7)<MAX_STR;
-    assert(x);
+    assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
     for (int a = 0; a < strlen(string1); ++a) {
@@ -413,4 +413,54 @@ int selezione_stringa_7(char *string1, char *string2, char *string3, char *strin
     else if(!strcmp(string7,scelta)) f=7;
     else f=0;
     return f;
+}
+int str_toalnum(char *s) {
+    char s1[MAX_VETT];  int j=0;  int f=0;
+    assert(strlen(s)<MAX_VETT);
+    assert(s!=NULL);
+    for (int i = 0; i < strlen(s); ++i) {
+        if (!isalnum(s[i])){s1[j]=s[i]; j++; f++;}
+    }
+    if(f==0) {fprintf(stderr,"\nLa stringa era gia' alfanumerica...\n"); return f;} //Debug
+    else{
+        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
+        for (int k = 0; k < strlen(s1); ++k) {
+            s[k]=s1[k];
+        }
+        return strlen(s);
+    }
+}
+int str_toupper(char *s) {
+    char s1[MAX_VETT]; int j=0; int f=0;
+    assert(strlen(s)<MAX_VETT);
+    assert(s!=NULL);
+    str_toalnum(s);
+    for (int i = 0; i < strlen(s); ++i) {
+        if (!isupper(s[i])){
+            s[i]=toupper(s[i]);
+            f++;
+        }
+    }
+    if(f==0) {fprintf(stderr,"\nLa stringa era gia' minuscola...\n"); return f;} //Debug
+    else{
+        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
+        return strlen(s);
+    }
+}
+int str_tolower(char *s) {
+    char s1[MAX_VETT]; int j=0; int f=0;
+    assert(strlen(s)<MAX_VETT);
+    assert(s!=NULL);
+    str_toalnum(s);
+    for (int i = 0; i < strlen(s); ++i) {
+        if (!islower(s[i])){
+            s[i]=tolower(s[i]);
+            f++;
+        }
+    }
+    if(f==0) {fprintf(stderr,"\nLa stringa era gia' maiuscola...\n"); return f;} //Debug
+    else{
+        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
+        return strlen(s);
+    }
 }

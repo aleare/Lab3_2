@@ -41,5 +41,8 @@ int selezione_stringa_7(char string1[], char string2[], char string3[], char str
 
 //Funzioni di ordine [sort]
 
-
+//Funzioni su stringhe [str]
+int str_toalnum(char *s); //Converte s a soli caratteri alfanumerici... Se s è già alnum torna 0, altrimenti torna la grandezza della nuova stringa
+int str_toupper(char *s); //Converte s a soli caratteri minuscoli... Se s è già minuscola torna 0, altrimenti torna la grandezza della nuova stringa
+int str_tolower(char *s); //Converte s a soli caratteri maiuscoli... Se s è già maiuscola torna 0, altrimenti torna la grandezza della nuova stringa
 #endif
