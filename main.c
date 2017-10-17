@@ -3,6 +3,5 @@
 
 int main() {
     hello_world();
-    //CIAO
     return 0;
 }

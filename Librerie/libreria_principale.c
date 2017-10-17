@@ -1,12 +1,10 @@
 #include "libreria_principale.h"
-#include <string.h>
-#define MAX_VETT 1000
 
 void hello_world(void) {
     printf("Hello, World!\n");
 }
-//Funzioni su FILE
-FILE *apri_file(int MAX_FILENAME_SIZE) {
+//Funzioni su FILE [FILE]
+FILE *FILE_apri_file(int MAX_FILENAME_SIZE) {
     FILE *fp=NULL;
     char nomefile[MAX_FILENAME_SIZE];
     do{
@@ -19,7 +17,8 @@ FILE *apri_file(int MAX_FILENAME_SIZE) {
     }   while (fp==NULL);
     return fp;
 }
-int leggi_file(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]) {
+int FILE_leggi_file(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]) {
+    assert(fp!=NULL);
     char ch; //Carattere di debug
     for (int i = 0; i < r; ++i) {
         for (int j = 0; j < c; ++j) {
@@ -33,9 +32,12 @@ int leggi_file(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]) {
     }
     return 0;
 }
-//Funzioni di ricerca
-int ricerca_matrice_carattere(const char mat[MAX_MAT_R][MAX_MAT_C], int r, int c, char *s) {
+//Funzioni di ricerca [find]
+int find_ricerca_stringa_matrice(const char mat[MAX_MAT_R][MAX_MAT_C], int r, int c, char *s) {
     int t=0; int k=0; int grandezza=strlen(s);
+    assert(s!=NULL);
+    assert(mat!=NULL);
+    assert(grandezza<MAX_MAT_R&&grandezza<MAX_MAT_C);
     //Ricerca per Righe
     for (int i = 0; i < r; ++i) {
         for (int j = 0; j < c; ++j) {
@@ -70,9 +72,10 @@ int ricerca_matrice_carattere(const char mat[MAX_MAT_R][MAX_MAT_C], int r, int c
     }
     return t;
 }
-//Funzioni su Vettori
-void crea_vettore_tastiera(int *v) {
+//Funzioni su Vettori [vett]
+int vett_crea_vettore_tastiera(int *v) {
     int d; //Dimensione del vettore da inserire
+    assert(v!=NULL);
     do{
         printf("Inserire la dimensione del vettore:\n");
         fscanf(stdin,"%d",&d);
@@ -88,11 +91,39 @@ void crea_vettore_tastiera(int *v) {
         printf("%d ",v[i]);
     }
     printf("\n");
+    return d;
 }
-//Funzioni su Insiemi
-void crea_insieme(int v[],int size) {
+int vett_crea_vettore_tastiera_DMAX(int *v, const int DMAX) {
+    assert(v!=NULL);
+    int d; //Dimensione del vettore da inserire
+    do{
+        printf("Inserire la dimensione del vettore:\n");
+        fscanf(stdin,"%d",&d);
+        if(d<0) printf("Dimensione Errata! Riprovare...\n");
+        if(d>DMAX) printf("La dimensione supera quella massima consentita! Riprovare...\n");
+    } while (d<0||d>DMAX);
+    printf("Inserire i dati del vettore:\n");
+    for (int i = 0; i < d; ++i) {
+        fscanf(stdin,"%d",&v[i]);
+    }
+    //Debug
+    printf("Il vettore acquisito e'...:\n");
+    for (int i = 0; i < d; ++i) {
+        printf("%d ",v[i]);
+    }
+    printf("\n");
+    return d;
+}
+//Funzioni su Insiemi [ins]
+void ins_crea_insieme(int *v, int size) {
+    assert(v!=NULL);
+    assert(MAX_VETT>size);
     int v1[MAX_VETT];
     int insieme[MAX_VETT]={0};
+    if(size>MAX_VETT){
+        fprintf(stderr,"La dimensione del vettore supera quella massima... Aggiornare le costanti della libreria!");
+        exit(EXIT_FAILURE);
+    }
     int f=0,k=0;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -108,7 +139,8 @@ void crea_insieme(int v[],int size) {
         v[l]=insieme[l];
     }
 }
-int intersezione_insiemi(const int *v1, const int *v2, int *res, int size) { //Funzione usata nelle altre funzioni
+int ins_intersezione_insiemi(const int *v1, const int *v2, int *res, int size) { //Funzione usata nelle altre funzioni
+    assert(v1!=NULL&&v2!=NULL&&res!=NULL);
     int k=0; //Usato per res
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size; ++j) {
@@ -121,17 +153,20 @@ int intersezione_insiemi(const int *v1, const int *v2, int *res, int size) { //F
     if(k==0){ return 1;}
     else {return 0;}
 }
-void stampa_unione_insiemi(int *v1, int *v2, int size) { //Dato che non richiesto, la stampa avviene non in ordine, ma un sort è facilmente implementabile con l'utilizzo di un vettore all'interno di questa funzione
+int ins_stampa_unione_insiemi(int *v1, int *v2, int size) { //Dato che non richiesto, la stampa avviene non in ordine, ma un sort è facilmente implementabile con l'utilizzo di un vettore all'interno di questa funzione
     int inter[MAX_VETT]={0}; //Vettore Intersezione
+    assert(v1!=NULL&&v2!=NULL);
+    assert(MAX_VETT>size);
     int f=0; //Flag
     printf("L'unione di A e B e'...:\n");
-    if(intersezione_insiemi(v1,v2,inter,size)==1){ //Trova A int. B in inter. Se l'int. è vuota passa subito all'unione
+    if(ins_intersezione_insiemi(v1, v2, inter, size)==1){ //Trova A int. B in inter. Se l'int. è vuota passa subito all'unione
         for (int i = 0; i < size; ++i) {
             if (v1[i]!=0) printf("%d",v1[i]);
         }
         for (int i = 0; i < size; ++i) {
             if (v2[i]!=0)   printf("%d",v2[i]);
         }
+        return 1;
     }
     else {  //Se l'int. non è vuota ...
         for (int i = 0; i < size; ++i) {
@@ -149,31 +184,233 @@ void stampa_unione_insiemi(int *v1, int *v2, int size) { //Dato che non richiest
         for (int k = 0; k < size && inter[k]!=0; ++k) { //Stampa gli elementi dell'intersezione
             printf("%d ",inter[k]);
         }
+        return 0;
     }
     printf("\n");
 }
-//Funzioni di selezione
+int ins_unione_insiemi(int *v1, int *v2, int *u, int size) {//Il vettore creato non è ordinato
+    assert(MAX_VETT>size);
+    assert(v1!=NULL&&v2!=NULL&&u!=NULL);
+    int inter[MAX_VETT]={0}; //Vettore Intersezione
+    int f=0; //Flag
+    int l=0;
+    //Come si capisce la dimensione max del vettore?
+    printf("L'unione di A e B e'...:\n");
+    if(ins_intersezione_insiemi(v1, v2, inter, size)==1){ //Trova A int. B in inter. Se l'int. è vuota passa subito all'unione
+        for (int i = 0; i < size; ++i) {
+            if (v1[i]!=0){ u[l]=v1[i]; l++; }
+        }
+        for (int i = 0; i < size; ++i) {
+            if (v2[i]!=0){ u[l]=v2[i]; l++; }
+        }
+        return 1;
+    }
+    else {  //Se l'int. non è vuota ...
+        for (int i = 0; i < size; ++i) {
+            for (int j = 0; j < size; ++j) {
+                if(v1[i]==inter[j]) f=1;
+            }
+            if (f!=1)  { u[l]=v1[i]; l++; }
+            f=0; //Reset Flag
+            for (int j = 0; j < size; ++j) {
+                if(v2[i]==inter[j]) f=1;
+            }
+            if (f!=1)   { u[l]=v2[i]; l++; }
+            f=0; //Reset Flag
+        }
+        for (int k = 0; k < size && inter[k]!=0; ++k) { //Stampa gli elementi dell'intersezione
+            { u[l]=inter[k]; l++; }
+        }
+        return 0;
+    }
+}
+//Funzioni di selezione [sel]
 int selezione_stringa_2(char *string1, char *string2) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int i = 0; i < strlen(string1); ++i) {
+        string1[i]=tolower(string1[i]);
+    }
+    for (int j = 0; j < strlen(string2); ++j) {
+        string2[j]=tolower(string2[j]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else f=0;
+    return f;
 }
-
 int selezione_stringa_3(char *string1, char *string2, char *string3) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int a = 0; a < strlen(string1); ++a) {
+        string1[a]=tolower(string1[a]);
+    }
+    for (int b = 0; b < strlen(string2); ++b) {
+        string2[b]=tolower(string2[b]);
+    }
+    for (int c = 0; c < strlen(string3); ++c) {
+        string3[c]=tolower(string3[c]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else if(!strcmp(string3,scelta)) f=3;
+    else f=0;
+    return f;
 }
-
 int selezione_stringa_4(char *string1, char *string2, char *string3, char *string4) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int a = 0; a < strlen(string1); ++a) {
+        string1[a]=tolower(string1[a]);
+    }
+    for (int b = 0; b < strlen(string2); ++b) {
+        string2[b]=tolower(string2[b]);
+    }
+    for (int c = 0; c < strlen(string3); ++c) {
+        string3[c]=tolower(string3[c]);
+    }
+    for (int d = 0; d < strlen(string4); ++d) {
+        string4[d]=tolower(string4[d]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else if(!strcmp(string3,scelta)) f=3;
+    else if(!strcmp(string4,scelta)) f=4;
+    else f=0;
+    return f;
 }
-
 int selezione_stringa_5(char *string1, char *string2, char *string3, char *string4, char *string5) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&strlen(string5)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int a = 0; a < strlen(string1); ++a) {
+        string1[a]=tolower(string1[a]);
+    }
+    for (int b = 0; b < strlen(string2); ++b) {
+        string2[b]=tolower(string2[b]);
+    }
+    for (int c = 0; c < strlen(string3); ++c) {
+        string3[c]=tolower(string3[c]);
+    }
+    for (int d = 0; d < strlen(string4); ++d) {
+        string4[d]=tolower(string4[d]);
+    }
+    for (int e = 0; e < strlen(string5); ++e) {
+        string5[e]=tolower(string5[e]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else if(!strcmp(string3,scelta)) f=3;
+    else if(!strcmp(string4,scelta)) f=4;
+    else if(!strcmp(string5,scelta)) f=5;
+    else f=0;
+    return f;
 }
-
 int selezione_stringa_6(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
+          strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int a = 0; a < strlen(string1); ++a) {
+        string1[a]=tolower(string1[a]);
+    }
+    for (int b = 0; b < strlen(string2); ++b) {
+        string2[b]=tolower(string2[b]);
+    }
+    for (int c = 0; c < strlen(string3); ++c) {
+        string3[c]=tolower(string3[c]);
+    }
+    for (int d = 0; d < strlen(string4); ++d) {
+        string4[d]=tolower(string4[d]);
+    }
+    for (int e = 0; e < strlen(string5); ++e) {
+        string5[e]=tolower(string5[e]);
+    }
+    for (int g = 0; g < strlen(string6); ++g) {
+        string6[g]=tolower(string6[g]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else if(!strcmp(string3,scelta)) f=3;
+    else if(!strcmp(string4,scelta)) f=4;
+    else if(!strcmp(string5,scelta)) f=5;
+    else if(!strcmp(string6,scelta)) f=6;
+    else f=0;
+    return f;
 }
-
 int selezione_stringa_7(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6,
                         char *string7) {
-    return 0;
+    int x=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
+          strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR&&strlen(string7)<MAX_STR;
+    assert(x);
+    char scelta[MAX_STR]; int f=0;
+    //Rendo le scelte in minuscolo
+    for (int a = 0; a < strlen(string1); ++a) {
+        string1[a]=tolower(string1[a]);
+    }
+    for (int b = 0; b < strlen(string2); ++b) {
+        string2[b]=tolower(string2[b]);
+    }
+    for (int c = 0; c < strlen(string3); ++c) {
+        string3[c]=tolower(string3[c]);
+    }
+    for (int d = 0; d < strlen(string4); ++d) {
+        string4[d]=tolower(string4[d]);
+    }
+    for (int e = 0; e < strlen(string5); ++e) {
+        string5[e]=tolower(string5[e]);
+    }
+    for (int g = 0; g < strlen(string6); ++g) {
+        string6[g]=tolower(string6[g]);
+    }
+    for (int h = 0; h < strlen(string7); ++h) {
+        string7[h]=tolower(string7[h]);
+    }
+    //Acquisisco la scelta...
+    scanf("%s",scelta);
+    for (int k = 0; k < strlen(scelta); ++k) {
+        scelta[k]=tolower(scelta[k]);
+    }
+    if(!strcmp(string1,scelta)) f=1;
+    else if(!strcmp(string2,scelta)) f=2;
+    else if(!strcmp(string3,scelta)) f=3;
+    else if(!strcmp(string4,scelta)) f=4;
+    else if(!strcmp(string5,scelta)) f=5;
+    else if(!strcmp(string6,scelta)) f=6;
+    else if(!strcmp(string7,scelta)) f=7;
+    else f=0;
+    return f;
 }
