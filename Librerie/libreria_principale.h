@@ -1,10 +1,12 @@
 #ifndef MYLIB_LIBRARY_H
 #define MYLIB_LIBRARY_H
+
 //Costanti della libreria
 #define MAX_VETT 1000
 #define MAX_MAT_R 20
 #define MAX_MAT_C 70
 #define MAX_STR 20
+
 //Include Utilizzati
 #include <stdio.h>
 #include <string.h>
@@ -13,6 +15,7 @@
 #include <assert.h>
 
 void hello_world();
+
 
 //Funzioni su FILE [FILE]
 FILE *FILE_apri_file(int MAX_FILENAME_SIZE);
