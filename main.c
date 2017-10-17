@@ -11,7 +11,7 @@ int main() {
 /*Domande sono:
 1) Ho fatto bene ?
 2) I Macro come funzionano
-3) Funzioni che accettano parametri deiversi
+3) Funzioni che accettano parametri diversi
 4) Come fare LOG
 5) Come modificare le costanti anche nella libreria? */
 
