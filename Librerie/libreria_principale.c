@@ -88,7 +88,9 @@ int vett_crea_vettore_tastiera(int *v) {
         fscanf(stdin,"%d",&v[i]);
     }
     //Debug
+#ifdef DEBUG
     printf("Il vettore acquisito e'...:\n");
+#endif
     for (int i = 0; i < d; ++i) {
         printf("%d ",v[i]);
     }
@@ -109,12 +111,47 @@ int vett_crea_vettore_tastiera_DMAX(int *v, const int DMAX) {
         fscanf(stdin,"%d",&v[i]);
     }
     //Debug
+#ifdef DEBUG
     printf("Il vettore acquisito e'...:\n");
     for (int i = 0; i < d; ++i) {
         printf("%d ",v[i]);
     }
     printf("\n");
+#endif
     return d;
+}
+int vett_media_mobile(const int *V, int dim, int k, float *M) {
+    assert(V!=NULL); assert(M!=NULL);
+    assert(sizeof(V)==sizeof(M));
+    float media=0;
+    for (int i = 0; i < dim - 1; ++i) {
+        for (int j = i; j < i+k; ++j) {
+            media=media+V[j];
+        }
+        M[i]=media/k;
+        media=0;
+    }
+    return 0;
+}
+void vett_stampa_vettore(int *v, int dim) {
+    for (int i = 0; i < dim; ++i) {
+        printf("%d ",v[i]);
+    }
+}
+void vett_stampa_vettore_float(float *v, int dim) {
+    for (int i = 0; i < dim; ++i) {
+        printf("%f ",v[i]);
+    }
+}
+void vett_stampa_vettore_l_r_float(float v[], int l, int r) {
+    for (int i = l; i < r+1; ++i) {
+        printf("%f ",v[i]);
+    }
+}
+void vett_stampa_vettore_l_r(int v[], int l, int r) {
+    for (int i = l; i < r+1; ++i) {
+        printf("%d ",v[i]);
+    }
 }
 //Funzioni su Insiemi [ins]
 void ins_crea_insieme(int *v, int size) {
@@ -417,20 +454,25 @@ int selezione_stringa_7(char *string1, char *string2, char *string3, char *strin
     return f;
 }
 int str_toalnum(char *s) {
-    char s1[MAX_VETT];  int j=0;  int f=0;
+    char s1[MAX_VETT]={'\0'};  int j=0;  int f=0;  int x;
     assert(strlen(s)<MAX_VETT);
     assert(s!=NULL);
     for (int i = 0; i < strlen(s); ++i) {
-        if (!isalnum(s[i])){s1[j]=s[i]; j++; f++;}
+        if (isalnum(s[i])){s1[j]=s[i]; j++; f++;}
     }
     if(f==0) {fprintf(stderr,"\nLa stringa era gia' alfanumerica...\n"); return f;} //Debug
-    else{
+    else
+#ifdef DEBUG
         fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
-        for (int k = 0; k < strlen(s1); ++k) {
-            s[k]=s1[k];
-        }
-        return strlen(s);
+#endif
+    x=strlen(s);
+    for (int l = 0; l <x; ++l) {
+        s[l]='\0';
     }
+    for (int k = 0; k < strlen(s1); ++k) {
+        s[k]=s1[k];
+    }
+    return strlen(s);
 }
 int str_toupper(char *s) {
     char s1[MAX_VETT]; int j=0; int f=0;
@@ -443,9 +485,16 @@ int str_toupper(char *s) {
             f++;
         }
     }
-    if(f==0) {fprintf(stderr,"\nLa stringa era gia' minuscola...\n"); return f;} //Debug
+    if(f==0) {
+#ifdef DEBUG
+        fprintf(stderr,"\nLa stringa era gia' minuscola...\n"); //Debug
+#endif
+        return f;
+    }
     else{
-        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
+#ifdef DEBUG
+        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f); //Debug
+#endif
         return strlen(s);
     }
 }
@@ -460,9 +509,16 @@ int str_tolower(char *s) {
             f++;
         }
     }
-    if(f==0) {fprintf(stderr,"\nLa stringa era gia' maiuscola...\n"); return f;} //Debug
+    if(f==0) {
+#ifdef DEBUG
+        fprintf(stderr,"\nLa stringa era gia' maiuscola...\n"); //Debug
+#endif
+        return f;
+    }
     else{
-        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f);
+#ifdef DEBUG
+        fprintf(stderr,"\nIl numero di caratteri modificati e'... %d\n",f); //Debug
+#endif
         return strlen(s);
     }
 }

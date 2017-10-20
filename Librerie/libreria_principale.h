@@ -6,6 +6,7 @@
 #define MAX_MAT_R 20
 #define MAX_MAT_C 70
 #define MAX_STR 20
+#define DEBUG //Debug
 
 //Include Utilizzati
 #include <stdio.h>
@@ -27,6 +28,11 @@ int find_ricerca_stringa_matrice(const char mat[MAX_MAT_R][MAX_MAT_C], int r, in
 //Funzioni su Vettori [vett]
 int vett_crea_vettore_tastiera(int *v); //Crea un vettore a partire da dati presi da stdin. Torna la dimensione del vettore
 int vett_crea_vettore_tastiera_DMAX(int *v, const int DMAX); //Uguale a crea_vettore_tastiera ma con check su dim max.
+int vett_media_mobile(const int V[], int dim, int k, float M[]);
+void vett_stampa_vettore(int v[], int dim);
+void vett_stampa_vettore_float(float v[], int dim);
+void vett_stampa_vettore_l_r(int v[], int l, int r);
+void vett_stampa_vettore_l_r_float(float v[], int l, int r);
 
 //Funzioni su Insiemi [ins]
 void ins_crea_insieme(int v[],int size);
