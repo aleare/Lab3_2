@@ -19,20 +19,48 @@ FILE *FILE_apri_file(int MAX_FILENAME_SIZE, char *TYPE) {
     }   while (fp==NULL);
     return fp;
 }
-int FILE_leggi_file(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]) {
-    assert(fp!=NULL);
+int FILE_leggi_file_caratteri(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]) {
+    assert(fp!=NULL); assert(r<MAX_MAT_R+1); assert(c<MAX_MAT_C+1);
     char ch; //Carattere di debug
+    int n=0;
     for (int i = 0; i < r; ++i) {
         for (int j = 0; j < c; ++j) {
             if (feof(fp))
-                return 1;
+                return -1;
             ch=fgetc(fp);
             mat[i][j]=ch;
             ch=fgetc(fp); //Legge spazio o /n
         }
         fgetc(fp); //Legge /r
+        n++;
     }
-    return 0;
+    return n;
+}
+int FILE_leggi_file_dec(FILE *fp, int r, int c, int mat[MAX_MAT_R][MAX_MAT_C]) {
+    assert(fp!=NULL); assert(r<MAX_MAT_R+1); assert(c<MAX_MAT_C+1);
+    int n=0; //Carattere di debug
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            if (feof(fp))
+                return -1;
+            fscanf(fp," %d ",&mat[i][j]);
+            n++;
+        }
+    }
+    return n;
+}
+int FILE_leggi_file_float(FILE *fp, int r, int c, float mat[MAX_MAT_R][MAX_MAT_C]) {
+    assert(fp!=NULL); assert(r<MAX_MAT_R+1); assert(c<MAX_MAT_C+1);
+    int n=0; //Carattere di debug
+    for (int i = 0; i < r; ++i) {
+        for (int j = 0; j < c; ++j) {
+            if (feof(fp))
+                return -1;
+            fscanf(fp," %d ",&mat[i][j]);
+            n++;
+        }
+    }
+    return n;
 }
 //Funzioni di ricerca [find]
 int find_ricerca_stringa_matrice(const char mat[MAX_MAT_R][MAX_MAT_C], int r, int c, char *s) {
@@ -374,7 +402,7 @@ int selezione_stringa_5(char *string1, char *string2, char *string3, char *strin
 }
 int selezione_stringa_6(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6) {
     int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
-          strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR;
+                 strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR;
     assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
@@ -413,7 +441,7 @@ int selezione_stringa_6(char *string1, char *string2, char *string3, char *strin
 int selezione_stringa_7(char *string1, char *string2, char *string3, char *string4, char *string5, char *string6,
                         char *string7) {
     int OVER_LNG=strlen(string1)<MAX_STR&&strlen(string2)<MAX_STR&&strlen(string3)<MAX_STR&&strlen(string4)<MAX_STR&&
-          strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR&&strlen(string7)<MAX_STR;
+                 strlen(string5)<MAX_STR&&strlen(string6)<MAX_STR&&strlen(string7)<MAX_STR;
     assert(OVER_LNG);
     char scelta[MAX_STR]; int f=0;
     //Rendo le scelte in minuscolo
@@ -523,3 +551,35 @@ int str_tolower(char *s) {
     }
 }
 
+int stampa_matrice_dec(int r, int c, const int mat [MAX_MAT_R][MAX_MAT_C]) {
+    assert(c<MAX_MAT_R+1&&r<MAX_MAT_R+1);
+    assert(r>1&c>1);
+    assert(*mat!=NULL);
+    printf(" ");
+    for (int i = 0; i < (c * 3) + c - 1; ++i) {
+        printf("_");
+    }
+    printf("\n");
+    for (int j = 0; j < r; ++j) {
+        for (int k = 0; k < c; ++k) {
+            if (mat[j][k]<10&&mat[j][k]>-10) printf("| %d ",mat[j][k]);
+            else if (mat[j][k]<100&&mat[j][k]>-100) printf("| %d",mat[j][k]);
+            else if (mat[j][k]<1000&&mat[j][k]>-1000) printf("|%d",mat[j][k]);
+            else return -1;
+        }
+        printf("|\n");
+    }
+    return 1;
+}
+
+int somma_matrice_dec(int rx, int ry, int cx, int cy, int mat[MAX_MAT_R][MAX_MAT_C]) {
+    //Implementare Assert
+    assert(*mat!=NULL);
+    int somma=0;
+    for (int i = rx; i < ry; ++i) {
+        for (int j = cx; j < cy; ++j) {
+            somma += mat[i][j];
+        }
+    }
+    return somma;
+}

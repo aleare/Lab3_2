@@ -3,9 +3,9 @@
 
 //Costanti della libreria
 #define MAX_VETT 1000
-#define MAX_MAT_R 20
-#define MAX_MAT_C 70
-#define MAX_STR 20
+#define MAX_MAT_R 70
+#define MAX_MAT_C 20
+#define MAX_STR 25
 #define DEBUG //Debug
 
 //Include Utilizzati
@@ -20,7 +20,9 @@ void hello_world();
 
 //Funzioni su FILE [FILE]
 FILE *FILE_apri_file(int MAX_FILENAME_SIZE, char *TYPE);
-int FILE_leggi_file(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]);
+int FILE_leggi_file_caratteri(FILE *fp, int r, int c, char mat[MAX_MAT_R][MAX_MAT_C]);
+int FILE_leggi_file_float(FILE *fp, int r, int c, float mat[MAX_MAT_R][MAX_MAT_C]);
+int FILE_leggi_file_dec(FILE *fp, int r, int c, int mat[MAX_MAT_R][MAX_MAT_C]);
 
 //Funzioni di ricerca [find]
 int find_ricerca_stringa_matrice(const char mat[MAX_MAT_R][MAX_MAT_C], int r, int c, char *s);
@@ -55,3 +57,8 @@ int str_toalnum(char *s); //Converte s a soli caratteri alfanumerici... Se s è 
 int str_toupper(char *s); //Converte s a soli caratteri minuscoli... Se s è già minuscola torna 0, altrimenti torna la grandezza della nuova stringa
 int str_tolower(char *s); //Converte s a soli caratteri maiuscoli... Se s è già maiuscola torna 0, altrimenti torna la grandezza della nuova stringa
 #endif
+
+//Funzioni di varie []
+
+int stampa_matrice_dec(int r,int c,const int mat[MAX_MAT_R][MAX_MAT_C]);
+int somma_matrice_dec(int rx, int ry, int cx,int cy,int  mat[MAX_MAT_R][MAX_MAT_C]);
