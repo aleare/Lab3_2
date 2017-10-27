@@ -1,17 +1,12 @@
 #include "Librerie/libreria_principale.h"
-#ifdef MAX_VETT
-#undef MAX_VETT
-#define MAX_VETT 100000
-//NON FUNZIONA NELLA LIBRERIA
+#define MAX_RIGHE 100
 #endif
 int main() {
-    hello_world();
+    FILE *fp;
+    printf("Laboratorio 3_2:\n");
+    fp=FILE_apri_file(FILENAME_MAX,"r");
+
+
     return 0;
 }
-/*Domande sono:
-1) Ho fatto bene ?
-2) I Macro come funzionano
-3) Funzioni che accettano parametri diversi
-4) Come fare LOG
-5) Come modificare le costanti anche nella libreria? */
 
