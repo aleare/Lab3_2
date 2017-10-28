@@ -5,7 +5,7 @@
 #define MAX_VETT 1000
 #define MAX_MAT_R 70
 #define MAX_MAT_C 20
-#define MAX_STR 25
+#define MAX_STR 30
 #define DEBUG //Debug
 
 //Include Utilizzati
@@ -62,3 +62,4 @@ int str_tolower(char *s); //Converte s a soli caratteri maiuscoli... Se s √® gi√
 
 int stampa_matrice_dec(int r,int c,const int mat[MAX_MAT_R][MAX_MAT_C]);
 int somma_matrice_dec(int rx, int ry, int cx,int cy,int  mat[MAX_MAT_R][MAX_MAT_C]);
+//FARE SELEZIONE STRINGA CON VETTORE DI STRINGHE COME INPUT. O ENUM O LISTA |
